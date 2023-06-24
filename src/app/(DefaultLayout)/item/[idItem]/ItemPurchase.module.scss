@@ -1,0 +1,134 @@
+.wrap {
+  padding-left: 15px;
+  padding-right: 15px;
+  width: 75%;
+}
+.container {
+}
+.top {
+  display: flex;
+  flex-direction: row;
+}
+.item-logo {
+  margin-right: 15px;
+}
+.item-content {
+  padding-left: 15px;
+  padding-right: 15px;
+  display: flex;
+  flex-direction: column;
+}
+.title {
+  margin: 5px 0 0 0;
+  font-size: 1.8rem;
+  color: #777;
+  font-weight: 600;
+}
+.price {
+  color: #2790f2;
+  font-size: 2.4rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+.stock {
+  line-height: 1.42857143;
+  color: #333;
+  font-size: 1.4rem;
+}
+.describe {
+  font-size: 1.4rem;
+  line-height: 20px;
+}
+.describe-title {
+  font-weight: 600;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.describe-content {
+  color: #959595;
+  text-align: justify;
+}
+.count {
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: #888;
+  float: left;
+  margin-top: 12px;
+  min-width: 80px;
+  input {
+    font-size: 1.5rem;
+    border: #ebebeb solid 1px;
+    width: 107px;
+    height: 45px;
+    text-align: center;
+    &[type='number']::-webkit-inner-spin-button {
+      opacity: 1;
+      cursor: pointer;
+      height: 40px;
+    }
+  }
+}
+.count-title {
+  display: inline-block;
+  transform: translateY(-10px);
+}
+.action-btn-add {
+  width: 238px;
+  height: 43px;
+  background: #df3131 !important;
+  border-color: #df3131 !important;
+}
+// middle
+.middle-top {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+}
+.tab {
+  transform: translateY(1px);
+  line-height: 35px;
+  background-color: #fff;
+  color: #2790f2;
+  font-weight: 600;
+  padding: 5px 25px;
+  font-size: 1.4rem;
+}
+.checked {
+  border-top: #2790f2 2px solid;
+}
+// middle-bottom
+.middle-bottom {
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+.container {
+  color: #2980b9;
+  margin: 0 15px;
+  padding: 10px;
+  font-size: 1.4rem;
+  line-height: 19px;
+  font-weight: 500;
+}
+.middle-bottom-detail {
+  font-size: 1.4rem;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+.specifications {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+.list {
+  padding-left: 40px;
+}
+// bottom
+.bottom {
+  margin-top: 20px;
+}
+.bottom-title {
+  color: rgb(0, 0, 0);
+  font-size: 2.2rem;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}

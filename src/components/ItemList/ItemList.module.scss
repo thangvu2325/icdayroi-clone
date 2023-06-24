@@ -1,0 +1,83 @@
+.item-list {
+  padding-top: 5px;
+  width: 270px;
+  border-bottom: #2790f2 1px solid;
+}
+.item {
+  display: flex;
+  flex-direction: column;
+}
+.item-main {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 15px 20px;
+  font-size: 1.3rem;
+  position: relative;
+  border-top: 0.4px dashed #2790f2;
+  line-height: 1;
+  cursor: pointer;
+}
+.arrow-right {
+  width: 0;
+  height: 0;
+  margin-right: 10px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid #2790f2;
+}
+.item-title {
+  color: #000;
+}
+.item-icon {
+  text-align: right;
+  position: absolute;
+  right: 20px;
+}
+.sub-item-list {
+  border-top: 0.8px solid #2790f2;
+  :first-child {
+    border: 0;
+  }
+  overflow: hidden;
+  // animation: Up 1s ease-in-out;
+}
+.sub-item {
+  font-size: 1.3rem;
+  padding: 10px 20px;
+  border-top: 1px dotted #777;
+  color: #777;
+  cursor: pointer;
+}
+.sub-item-title {
+  margin: 0 0 0 20px;
+  font-weight: 300;
+}
+.hide {
+  height: 0;
+  animation: FadeOut 0.6s ease-out;
+  border-top: none;
+}
+.show {
+  animation: DropDown 0.6s ease-in-out;
+}
+.macdinh {
+  height: 0;
+  border-top: none;
+}
+@keyframes DropDown {
+  from {
+    height: 0;
+  }
+  to {
+    height: 80px;
+  }
+}
+@keyframes FadeOut {
+  from {
+    height: 60px;
+  }
+  to {
+    height: 0;
+  }
+}

@@ -1,9 +1,11 @@
 @import 'normalize.css';
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
-
+@import url('../../node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css');
 
 :root {
-  --primary: #fe2c55;
+  --primary: #3c91e6;
+  --white: #fff;
+  --text-color: #8c8c8c;
+  --nav-height: 50px;
 }
 
 html {
@@ -11,11 +13,26 @@ html {
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Arial', Arial, Helvetica, sans-serif;
   font-size: 1.6rem;
   line-height: 1.5;
   text-rendering: optimizespeed;
 }
 * {
   box-sizing: border-box;
+}
+button,
+input,
+[tabindex] {
+  outline: none;
+  border: none;
+}
+a {
+  color: var(--text-color);
+  text-decoration: none;
+}
+input[type='number'] {
+  &::-webkit-inner-spin-button {
+    opacity: 1;
+  }
 }

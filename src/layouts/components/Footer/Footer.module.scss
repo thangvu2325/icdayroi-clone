@@ -1,0 +1,177 @@
+.wrap {
+  margin-top: 15px;
+  border-top: #ccc 1px solid;
+  padding: 20px 15px 0;
+  height: 500px;
+}
+.container {
+  width: 1170px;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+.top {
+  border-bottom: #e1e1e1 1px solid;
+  display: flex;
+  color: #000;
+  font-size: 1.4rem;
+}
+.top-contact {
+  width: 50%;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-bottom: 20px;
+}
+.text-header {
+  margin: 10px 0;
+}
+.text-last,
+.text {
+  margin-bottom: 3px;
+  margin-top: 0;
+}
+.text-last {
+  margin-bottom: 10px;
+}
+.text-footer {
+  color: #f00;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0;
+}
+.text-footer-child-last,
+.text-footer-child {
+  color: #f00;
+  margin: 0;
+  font-size: 1.2rem;
+}
+.text-footer-child-last {
+  margin-bottom: 10px;
+}
+
+.top-policy {
+  flex: 1;
+  font-size: 1.4rem;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-bottom: 20px;
+}
+// policy
+.top-policy-title {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: rgb(51, 51, 51);
+  font-weight: 600;
+  line-height: 25px;
+  line-height: 1.1;
+}
+.top-policy-text {
+  line-height: 25px;
+  display: block;
+  color: #000;
+}
+.top-fanpage {
+  flex: 1;
+}
+// middle
+.middle {
+  display: flex;
+  margin-top: 8px;
+}
+.cash {
+  width: 50%;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.cash-title {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: #333333;
+  font-size: 1.4rem;
+  line-height: 20px;
+}
+.thanh-toan {
+  img {
+    margin-right: 4px;
+  }
+}
+.thac-mac {
+  flex: 1;
+
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.thacmac-title {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: #333333;
+  font-size: 1.4rem;
+  line-height: 20px;
+}
+
+.phone {
+  display: flex;
+}
+.tu-van {
+  display: flex;
+  line-height: 20px;
+  margin-right: 20px;
+}
+.tu-van-img {
+  margin-right: 10px;
+}
+.phan-anh-top,
+.tu-van-top {
+  font-size: 1.4rem;
+  color: #999999;
+}
+.phan-anh-bottom,
+.tu-van-bottom {
+  color: #d91918;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.phan-anh {
+  border-left: #ccc thin solid;
+  padding-left: 20px;
+}
+// store
+.bottom {
+  line-height: 20px;
+}
+.store {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.store-title {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: #333333;
+  font-size: 1.4rem;
+  line-height: 20px;
+}
+.store-content {
+  display: flex;
+}
+
+.content-left {
+  width: 40%;
+  padding-right: 15px;
+}
+.content-middle {
+  width: 30%;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.content-right {
+  flex: 1;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.content-text {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.4rem;
+  color: #999;
+}

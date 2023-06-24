@@ -1,0 +1,246 @@
+.wrap {
+  background-color: var(--white);
+  text-align: center;
+}
+.top {
+  border-bottom: #ccc thin solid;
+}
+.top-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 1170px;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.title {
+  font-size: 1.2rem;
+  color: #8c8c8c;
+}
+.list-icon {
+  display: flex;
+  :nth-child(1):hover {
+    background: #3b5998;
+    color: var(--white);
+  }
+  :nth-child(2):hover {
+    background: #55acee;
+    color: var(--white);
+  }
+  :nth-child(3):hover {
+    background: #dd4b39;
+    color: var(--white);
+  }
+  :nth-child(4):hover {
+    background: #b00;
+    color: var(--white);
+  }
+}
+.icon {
+  cursor: pointer;
+  color: #8c8c8c;
+  font-size: 1.2rem;
+  width: 40px;
+  height: 35px;
+  line-height: 35px;
+}
+// Main
+// .main{
+
+// }
+.main-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 1170px;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+.logo {
+  margin: 25px 0;
+  cursor: pointer;
+}
+.search {
+  padding: 0 15px 10px;
+}
+.search-vector {
+  height: 35px;
+  line-height: 35px;
+  font-size: 1.4rem;
+  color: var(--primary);
+  padding: 0 10px;
+}
+.search-container {
+  display: flex;
+  flex-direction: column;
+  width: 555px;
+  text-align: left;
+}
+.search-form {
+  position: relative;
+}
+.search-input {
+  border: 1px solid var(--primary);
+  width: 555px;
+  height: 48px;
+  padding: 0 15px;
+  font-size: 1.4rem;
+}
+.search-btn {
+  width: 99px;
+  height: 48px;
+  position: absolute;
+  right: 0;
+  z-index: 1;
+}
+.search-menu {
+  width: 555px;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+}
+.search-item {
+  padding: 2px;
+  padding-left: 5px;
+  cursor: pointer;
+  background-color: #fff;
+  border-bottom: 1px solid #d4d4d4;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.search-item-title {
+  padding-left: 8px;
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+.search-item-price {
+  margin-left: auto;
+  margin-right: 7px;
+  color: #2790f2;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+.accout-cart-container {
+  display: flex;
+  cursor: pointer;
+  margin-top: 22px;
+}
+.accout-cart {
+  margin: 0 15px;
+}
+.user-action {
+  font-size: 1.3rem;
+  color: var(--text-color);
+  margin-right: 16px;
+}
+.cart {
+  position: relative;
+}
+.cart-action {
+  font-size: 1.3rem;
+  color: var(--text-color);
+}
+.cart-count {
+  border-radius: 999px;
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
+  font-size: 1.3rem;
+  color: var(--white);
+  background-color: var(--primary);
+  position: absolute;
+  top: -10px;
+  right: -2px;
+}
+.menu-list {
+  width: 430px;
+  background-color: var(--white);
+  padding: 10px 25px 0px 30px;
+}
+.item {
+  overflow: hidden;
+  border-bottom: 1px solid #ebebeb;
+  padding: 15px 0 20px;
+  display: flex;
+}
+.item-content {
+  text-align: left;
+}
+.item-title {
+  color: #2a2a2a;
+  line-height: 17px;
+  font-size: 1.4rem;
+  margin-bottom: 5px;
+}
+.item-price {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #2790f2;
+}
+.item-count {
+  position: relative;
+  width: fit-content;
+}
+.item-input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  height: 42px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  margin-right: 10px;
+  .item-count-input {
+    &[type='number']::-webkit-inner-spin-button {
+      opacity: 1;
+      cursor: pointer;
+    }
+  }
+}
+.item-count-input {
+  max-width: 46px;
+  color: #aaa;
+  font-size: 1.3rem;
+}
+
+.no-item {
+  padding-top: 10px;
+  p {
+    padding-bottom: 10px;
+    font-size: 1.3rem;
+    color: rgb(51, 51, 51);
+  }
+}
+.total {
+  line-height: 50px;
+  margin-bottom: 20px;
+}
+.total-value {
+  color: #333;
+  border-bottom: 1px solid #ebebeb;
+
+  font-size: 1.4rem;
+  font-weight: bold;
+  line-height: 50px;
+  text-transform: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.price {
+  color: #2790f2;
+  font-size: 1.6rem;
+}
+.item-action {
+  padding-bottom: 25px;
+}
+.action-btn {
+  width: 181px;
+  height: 39px;
+  font-size: 1.4rem;
+}
