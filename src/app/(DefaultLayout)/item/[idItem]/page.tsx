@@ -3,24 +3,35 @@ import { FunctionComponent, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from '@/app/(DefaultLayout)/item/[idItem]/ItemPurchase.module.scss';
 import { useSelector } from 'react-redux';
-import { itemListSelector } from '@/redux/selectors';
+import { filterListSelector } from '@/redux/selectors';
 import Image from 'next/image';
 import Button from '@/components/Button';
 import Items from '@/components/Items';
+
 const cx = classNames.bind(styles);
 interface ItemPurchaseProps {
   params: { idItem: string };
 }
-interface item {
+interface Item {
   name: string;
-  id: string;
+  _id: string;
+  qty: number;
   img: string;
-  imgLarge: string;
-  price: string;
-  about?: { detail: string; specifications: string[]; image: string[] };
-  available: boolean;
-  count: number;
+  img_small: string;
+  img_large: string;
+  price_orginal: number;
+  price_final: number;
+  about?: { detail: string; specifications: string[]; specifications_img: string[] };
+  slug: string;
 }
+interface Filter {
+  _id: string;
+  title: string;
+  subFilter?: [{ subTitle: string; _id: string; item: Item[] }];
+  item?: Item[];
+  slug: string;
+}
+
 // export async function generateMetadata({ params: { idItem } }: Params, item): Promise<Metadata> {
 //   return {
 //     title: 'ab',
@@ -29,8 +40,23 @@ interface item {
 // }
 
 const ItemPurchase: FunctionComponent<ItemPurchaseProps> = ({ params: { idItem } }) => {
-  const ItemList: item[] = useSelector(itemListSelector);
-  const ItemSelect = ItemList.find((item) => item.id === idItem);
+  const filterList: Filter[] = useSelector(filterListSelector);
+  const items: Item[] = [];
+  filterList.forEach((filter) => {
+    if (filter.item && filter.item.length) {
+      items.push(...filter.item);
+    }
+    if (filter.subFilter && filter.subFilter.length) {
+      filter.subFilter.forEach((subFilter) => {
+        if (subFilter.item && subFilter.item.length) {
+          items.push(...subFilter.item);
+        }
+      });
+    }
+  });
+  const ItemSelect = items.find((item) => {
+    return item.slug === idItem;
+  });
   const [countValue, setCountValue] = useState<number>(1);
   const handleChangeCount = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCountValue(Number(e.target.value));
@@ -41,11 +67,11 @@ const ItemPurchase: FunctionComponent<ItemPurchaseProps> = ({ params: { idItem }
         <div className={cx('container')}>
           <div className={cx('top')}>
             <div className={cx('item-logo')}>
-              <Image src={ItemSelect.imgLarge} alt="Logo Item" width={398} height={398}></Image>
+              <Image src={ItemSelect.img_large} alt="Logo Item" width={398} height={398}></Image>
             </div>
             <div className={cx('item-content')}>
               <div className={cx('title')}>{ItemSelect.name}</div>
-              <div className={cx('price')}>{ItemSelect.price}₫</div>
+              <div className={cx('price')}>{ItemSelect.price_final}₫</div>
               <div className={cx('stock')}>Còn hàng</div>
               <div className={cx('describe')}>
                 <div className={cx('describe-title')}>Mô tả:</div>
@@ -89,7 +115,7 @@ const ItemPurchase: FunctionComponent<ItemPurchaseProps> = ({ params: { idItem }
                 })}
               </div>
               <div className={cx('image')}>
-                {ItemSelect.about?.image.map((item, index) => {
+                {ItemSelect.about?.specifications_img?.map((item, index) => {
                   return <Image key={index} src={item} alt="image of item" width={750} height={750} />;
                 })}
               </div>
@@ -105,7 +131,7 @@ const ItemPurchase: FunctionComponent<ItemPurchaseProps> = ({ params: { idItem }
           </div>
         </div>
       ) : (
-        'Item not found'
+        <p>{idItem}</p>
       )}
     </div>
   );

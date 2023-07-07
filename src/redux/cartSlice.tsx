@@ -2,15 +2,16 @@ import { createSlice } from '@reduxjs/toolkit';
 
 interface Item {
   name: string;
-  id: string;
+  _id: string;
+  qty: number;
   img: string;
-  imgLarge?: string;
-  price: string;
-  about?: string[];
-  available: boolean;
-  count: number;
+  img_small: string;
+  img_large: string;
+  price_orginal: number;
+  price_final: string;
+  about?: { detail: string; specifications: string[]; specifications_img: string[] };
+  slug: string;
 }
-
 export default createSlice({
   name: 'cart',
   initialState: {
@@ -20,23 +21,23 @@ export default createSlice({
   reducers: {
     addItem: (state, action) => {
       state.newItem = action.payload;
-      const isItemHasInCart = state.listItem.find((item) => item.id === action.payload.id);
+      const isItemHasInCart = state.listItem.find((item) => item._id === action.payload.id);
       if (isItemHasInCart) {
-        isItemHasInCart.count++;
+        isItemHasInCart.qty++;
       } else {
-        state.listItem.push({ ...action.payload, count: 1 });
+        state.listItem.push({ ...action.payload, qty: 1 });
       }
     },
     deleteItem: (state, action) => {
       const itemId = action.payload;
-      state.listItem = state.listItem.filter((item) => item.id !== itemId);
+      state.listItem = state.listItem.filter((item) => item._id !== itemId);
     },
     editCountItem: (state, action) => {
       const { id, value } = action.payload;
-      const itemToUpdate = state.listItem.find((item) => item.id === id);
+      const itemToUpdate = state.listItem.find((item) => item._id === id);
       if (itemToUpdate) {
         if (value !== 0) {
-          itemToUpdate.count = value;
+          itemToUpdate.qty = value;
         }
       }
     },

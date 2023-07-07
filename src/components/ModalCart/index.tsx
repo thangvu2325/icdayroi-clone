@@ -15,16 +15,16 @@ interface ModalCartProps {
 }
 interface Item {
   name: string;
-  id: string;
+  _id: string;
+  qty: number;
   img: string;
-  imgLarge?: string;
-  price: string;
-  about?: string[];
-  available: boolean;
-  count: number;
-  path: string;
+  img_small: string;
+  img_large: string;
+  price_orginal: number;
+  price_final: number;
+  about?: { detail: string; specifications: string[]; image: string[] };
+  slug: string;
 }
-
 type Cart = {
   newItem?: Item;
   listItem?: Item[];
@@ -72,34 +72,32 @@ const ModalCart: FunctionComponent<ModalCartProps> = ({ open, action }) => {
               <div className={cx('middle-list-item')}>
                 {cart.listItem?.length
                   ? cart.listItem?.map((item) => (
-                      <div className={cx('middle-item')} key={item.id}>
+                      <div className={cx('middle-item')} key={item._id}>
                         <div className={cx('product')}>
-                          <Image src={item.img} alt="img-product" width={80} height={80} />
+                          <Image src={item.img_small} alt="img-product" width={80} height={80} />
                           <div className={cx('product-content')}>
                             <div className={cx('product-name')}>{item.name}</div>
                             <span
                               className={cx('product-delete')}
                               onClick={() => {
-                                handleDeleteItem(item.id);
+                                handleDeleteItem(item._id);
                               }}
                             >
                               <IconCircleXFilled size={16} /> Bỏ sản phẩm
                             </span>
                           </div>
                         </div>
-                        <div className={cx('price')}>{item.price}₫</div>
+                        <div className={cx('price')}>{item.price_final}₫</div>
                         <div className={cx('count')}>
                           <input
                             type="number"
-                            value={item.count}
+                            value={item.qty}
                             min={0}
                             max={200}
-                            onChange={(e) => handleChangeCount(item.id, Number(e.target.value))}
+                            onChange={(e) => handleChangeCount(item._id, Number(e.target.value))}
                           />
                         </div>
-                        <div className={cx('money')}>
-                          {(item.count * Number(item.price.replace('.', ''))).toLocaleString()}₫
-                        </div>
+                        <div className={cx('money')}>{(item.qty * item.price_final).toLocaleString()}₫</div>
                       </div>
                     ))
                   : ''}
@@ -113,9 +111,7 @@ const ModalCart: FunctionComponent<ModalCartProps> = ({ open, action }) => {
                   <span className={cx('price')}>
                     {cart.listItem
                       ?.reduce((acc, item) => {
-                        const count = item.count;
-                        const price = parseFloat(item.price.replace('.', ''));
-                        const subtotal = count * price;
+                        const subtotal = item.qty * item.price_final;
                         return acc + subtotal;
                       }, 0)
                       .toLocaleString()}

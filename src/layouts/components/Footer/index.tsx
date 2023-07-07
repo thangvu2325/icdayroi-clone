@@ -1,3 +1,4 @@
+'use client';
 import classNames from 'classnames/bind';
 import { FunctionComponent, ReactNode } from 'react';
 import styles from '@/layouts/components/Footer/Footer.module.scss';

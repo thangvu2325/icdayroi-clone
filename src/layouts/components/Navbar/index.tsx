@@ -1,15 +1,39 @@
+'use client';
 import classNames from 'classnames/bind';
 import styles from '@/layouts/components/Navbar/Navbar.module.scss';
 import Link from 'next/link';
-import { FunctionComponent, ReactNode, useState } from 'react';
+import { FunctionComponent, ReactNode } from 'react';
 import Tippy from '@tippyjs/react/headless'; // different import path!
 import 'tippy.js/dist/tippy.css';
 import Image from 'next/image';
 import { IconChevronDown, IconHome } from '@tabler/icons-react';
-import { listItem } from '../SideBar';
+import { useSelector } from 'react-redux';
+import { filterListSelector } from '@/redux/selectors';
+
+interface Item {
+  name: string;
+  _id: string;
+  qty: number;
+  img: string;
+  img_small: string;
+  img_large: string;
+  price_orginal: number;
+  price_final: string;
+  about?: { detail: string; specifications: string[]; specifications_img: string[] };
+  slug: string;
+}
+interface Filter {
+  _id: string;
+  title: string;
+  subFilter?: [{ subTitle: string; _id: string; item: Item[] }];
+  item?: Item[];
+  slug: string;
+}
 const cx = classNames.bind(styles);
 interface NavbarProps {}
 const Navbar: FunctionComponent<NavbarProps> = (): ReactNode => {
+  // const [data, setData] = useState<Filter[]>([]);
+  const filterList: Filter[] = useSelector(filterListSelector);
   return (
     <nav className={cx('wrap')}>
       <div className={cx('dash')}>
@@ -32,7 +56,7 @@ const Navbar: FunctionComponent<NavbarProps> = (): ReactNode => {
                 offset={[117, 18]}
                 render={(attrs) => (
                   <div className={cx('menu-list')} tabIndex={-1} {...attrs}>
-                    {listItem.map(
+                    {filterList.map(
                       (item, index): ReactNode => (
                         <Tippy
                           key={index}
@@ -42,16 +66,16 @@ const Navbar: FunctionComponent<NavbarProps> = (): ReactNode => {
                           offset={[0, 0]}
                           render={(attrs) => (
                             <div className={cx('menu-list')} tabIndex={-1} {...attrs}>
-                              {item.subItem &&
-                                item.subItem.map((subitem, subindex) => (
+                              {item.subFilter &&
+                                item.subFilter.map((subfilter, subindex) => (
                                   <div key={subindex} className={cx('item')}>
-                                    <h3 className={cx('item-title')}>{subitem.title}</h3>
+                                    <h3 className={cx('item-title')}>{subfilter.subTitle}</h3>
                                   </div>
                                 ))}
                             </div>
                           )}
                         >
-                          <Link href={item.link}>
+                          <Link href={item.slug}>
                             <div className={cx('item')}>
                               <h3 className={cx('item-title')}>{item.title}</h3>
                             </div>

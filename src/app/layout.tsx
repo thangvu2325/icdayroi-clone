@@ -1,7 +1,6 @@
-// 'use client';
 import './globals.scss';
-// import { Provider } from 'react-redux';
-// import store from '@/redux/store';
+import { Providers } from '@/redux/provider';
+
 export const metadata = {
   title: 'IC ĐÂY RỒI - THẾ GIỚI LINH KIỆN ĐIỆN TỬ',
   description:
@@ -11,7 +10,9 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

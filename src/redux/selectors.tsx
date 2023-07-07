@@ -1,27 +1,55 @@
 import { createSelector } from '@reduxjs/toolkit';
-interface item {
+interface Item {
   name: string;
-  id: string;
+  _id: string;
+  qty: number;
   img: string;
-  imgLarge: string;
-  price: string;
-  about?: { detail: string; specifications: string[]; image: string[] };
-  available: boolean;
-  count: number;
+  img_small: string;
+  img_large: string;
+  price_orginal: number;
+  price_final: number;
+  about?: { detail: string; specifications: string[]; specifications_img: string[] };
+  slug: string;
+}
+interface Filter {
+  _id: string;
+  title: string;
+  subFilter?: [{ subTitle: string; _id: string; item: Item[] }];
+  item?: Item[];
+  slug: string;
 }
 export const searchTextSelector = (state: {
   filters: {
     search: string;
   };
 }) => state.filters.search;
-export const itemListSelector = (state: { itemList: item[] }) => state.itemList;
+export const itemListSelector = (state: { itemList: Item[] }) => state.itemList;
 export const cartSelector = (state: { cart: {} }) => state.cart;
+export const filterListSelector = (state: {
+  filterList: {
+    data: Filter[];
+    loading: string;
+  };
+}) => state.filterList.data;
 
 export const itemsRemainingSelector = createSelector(
   searchTextSelector,
-  itemListSelector,
-  (searchText: string, itemList: item[]) => {
+  filterListSelector,
+  (searchText: string, filterList: Filter[]) => {
     const lowerCaseSearchText = searchText.toLowerCase();
+    const itemList: Item[] = [];
+    filterList.forEach((filter) => {
+      if (filter.item?.length) {
+        itemList.push(...filter.item);
+      }
+      if (filter?.subFilter?.length) {
+        filter?.subFilter.forEach((subFilter) => {
+          if (subFilter.item?.length) {
+            itemList.push(...subFilter.item);
+          }
+        });
+      }
+    });
     return itemList.filter((item) => {
       const lowerCaseItemName = item.name.toLowerCase();
       return lowerCaseItemName.includes(lowerCaseSearchText);

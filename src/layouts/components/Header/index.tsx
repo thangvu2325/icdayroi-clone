@@ -15,7 +15,7 @@ import Tippy from '@tippyjs/react/headless'; // different import path!
 import 'tippy.js/dist/tippy.css';
 import Image from 'next/image';
 import Button from '@/components/Button';
-import { FunctionComponent, ReactNode, SetStateAction, useEffect, useState } from 'react';
+import { FunctionComponent, ReactNode, SetStateAction, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import filtersSlice from '@/redux/filtersSlice';
 import { useSelector } from 'react-redux';
@@ -24,18 +24,21 @@ import { cartSelector } from '@/redux/selectors';
 import cartSlice from '@/redux/cartSlice';
 const cx = classNames.bind(styles);
 interface HeaderProps {}
-interface item {
+interface Item {
   name: string;
-  id: string;
+  _id: string;
+  qty: number;
   img: string;
-  price: string;
-  about?: string[];
-  available: boolean;
-  count: number;
+  img_small: string;
+  img_large: string;
+  price_orginal: number;
+  price_final: number;
+  about?: { detail: string; specifications: string[]; image: string[] };
+  slug: string;
 }
 type Cart = {
-  newItem?: item;
-  listItem?: item[];
+  newItem?: Item;
+  listItem?: Item[];
 };
 const Header: FunctionComponent<HeaderProps> = (): ReactNode => {
   const [searchValue, setSearchValue] = useState<string>('');
@@ -50,7 +53,6 @@ const Header: FunctionComponent<HeaderProps> = (): ReactNode => {
     setSearchValue(e.target.value);
     dispatch(filtersSlice.actions.searchFilterChange(e.target.value));
   };
-
   return (
     <div className={cx('wrap')}>
       <div className={cx('container')}>
@@ -94,11 +96,11 @@ const Header: FunctionComponent<HeaderProps> = (): ReactNode => {
                       return (
                         <div className={cx('search-menu')} tabIndex={-1} {...attrs}>
                           {itemList.length
-                            ? itemList.map((item) => (
-                                <div className={cx('search-item')} key={item.id}>
-                                  <Image src={item.img} alt="image item" width={32} height={32}></Image>
+                            ? itemList.map((item, index) => (
+                                <div className={cx('search-item')} key={index}>
+                                  <Image src={item.img_small} alt="image item" width={32} height={32}></Image>
                                   <div className={cx('search-item-title')}>{item.name}</div>
-                                  <div className={cx('search-item-price')}>{item.price}</div>
+                                  <div className={cx('search-item-price')}>{item.price_final.toLocaleString()}₫</div>
                                 </div>
                               ))
                             : ''}
@@ -143,20 +145,20 @@ const Header: FunctionComponent<HeaderProps> = (): ReactNode => {
                         {cart.listItem?.length ? (
                           cart.listItem?.map((item) => {
                             return (
-                              <div className={cx('item')} key={item.id}>
-                                <Image src={item.img} alt="logo-item" width={85} height={85} />
+                              <div className={cx('item')} key={item._id}>
+                                <Image src={item.img_small} alt="logo-item" width={85} height={85} />
                                 <div className={cx('item-content')}>
                                   <div className={cx('item-title')}>{item.name}</div>
-                                  <div className={cx('item-price')}>{item.price}₫</div>
+                                  <div className={cx('item-price')}>{item.price_final}₫</div>
                                   <div className={cx('item-count')}>
                                     <div className={cx('item-input')}>
                                       <input
                                         className={cx('item-count-input', 'custom-input')}
                                         type="number"
-                                        value={item.count}
+                                        value={item.qty}
                                         min={0}
                                         max={200}
-                                        onChange={(e) => handleChangeCount(item.id, Number(e.target.value))}
+                                        onChange={(e) => handleChangeCount(item._id, Number(e.target.value))}
                                       />
                                     </div>
                                   </div>
@@ -175,9 +177,7 @@ const Header: FunctionComponent<HeaderProps> = (): ReactNode => {
                             <span className={cx('price')}>
                               {cart.listItem
                                 ?.reduce((acc, item) => {
-                                  const count = item.count;
-                                  const price = parseFloat(item.price.replace('.', ''));
-                                  const subtotal = count * price;
+                                  const subtotal = item.qty * item.price_final;
                                   return acc + subtotal;
                                 }, 0)
                                 .toLocaleString()}
@@ -214,5 +214,3 @@ const Header: FunctionComponent<HeaderProps> = (): ReactNode => {
   );
 };
 export default Header;
-
-// setInterval(()=>{debugger},1000)

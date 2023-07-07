@@ -5,6 +5,9 @@
   border-bottom: #ebebeb thin solid;
   margin-bottom: 20px;
 }
+.horizon_line {
+  border-left: #ccc thin solid;
+}
 .top {
   margin: 10px 0;
   padding-left: 15px;
@@ -27,8 +30,7 @@
   align-items: center;
   padding-bottom: 5px;
   border: #ebebeb thin solid;
-  padding-left: 0px;
-  padding-right: 0px;
+  margin: 0 10px;
   .item-btn {
     width: 80%;
     height: 34px;
@@ -49,6 +51,7 @@
   font-size: 1.4rem;
   line-height: 16px;
   margin: 10px 0 5px;
+  height: 35px;
 }
 .item-price {
   font-weight: 600;

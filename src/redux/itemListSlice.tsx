@@ -1,5 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-
+import { createAsyncThunk } from '@reduxjs/toolkit';
+// Tạo action creator bất đồng bộ sử dụng createAsyncThunk
+export const fetchInitialData = createAsyncThunk('FilterListSlice/fetchInitialData', async () => {
+  const response = await fetch('http://localhost:3001/api/listFilters'); // Gọi API để lấy dữ liệu
+  const data = await response.json();
+  return data;
+});
 export default createSlice({
   name: 'itemList',
   initialState: [
@@ -11,9 +17,8 @@ export default createSlice({
       price: '250.000',
       path: 'Anten-433Mhz-35dBi-SMA-Đực-5M',
       about: {
-        detail: `Anten 433Mhz 35dBi SMA Đực 5M được sử dụng cho các thiết bị truyền nhận RF Lora tần số 433Mhz. Thân anten được làm bằng đồng nguyên chất giúp tăng công suất khuếch đại tối đa lên đến 35dbi.
-        Thông số kỹ thuật
-        `,
+        detail:
+          'Anten 433Mhz 35dBi SMA Đực 5M được sử dụng cho các thiết bị truyền nhận RF Lora tần số 433Mhz. Thân anten được làm bằng đồng nguyên chất giúp tăng công suất khuếch đại tối đa lên đến 35dbi.',
         specifications: [
           'Dải tần: 433 Mhz',
           'Độ lợi: 35 dBi',
@@ -42,7 +47,6 @@ export default createSlice({
 
       about: {
         detail: `Anten 433Mhz 35dBi SMA Đực 5M được sử dụng cho các thiết bị truyền nhận RF Lora tần số 433Mhz. Thân anten được làm bằng đồng nguyên chất giúp tăng công suất khuếch đại tối đa lên đến 35dbi.
-        Thông số kỹ thuật
         `,
         specifications: [
           'Dải tần: 433 Mhz',
@@ -184,7 +188,7 @@ export default createSlice({
     },
   ],
   reducers: {
-    addItem: (state, action) => {
+    addItem: (state: any[], action: { payload: any }) => {
       state.push(action.payload);
     },
   },

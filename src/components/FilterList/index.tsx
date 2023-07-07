@@ -1,21 +1,36 @@
+'use client';
+
 import classNames from 'classnames/bind';
-import styles from '@/components/ItemList/ItemList.module.scss';
+import styles from '@/components/FilterList/FilterList.module.scss';
 import { FunctionComponent, ReactNode, useState } from 'react';
 import { IconChevronDown } from '@tabler/icons-react';
 import Link from 'next/link';
 const cx = classNames.bind(styles);
-
 interface Item {
+  name: string;
+  _id: string;
+  qty: number;
+  img: string;
+  img_small: string;
+  img_large: string;
+  price_orginal: number;
+  price_final: number;
+  about?: { detail: string; specifications: string[]; specifications_img: string[] };
+  slug: string;
+}
+interface Filter {
+  _id: string;
   title: string;
-  link: string;
-  subItem: Item[] | '';
+  subFilter?: [{ subTitle: string; _id: string; item: Item[] }];
+  item?: Item[];
+  slug: string;
 }
 
-interface ItemListProps {
-  items: Item[];
+interface FilterListProps {
+  Filters: Filter[];
 }
 
-const ItemList: FunctionComponent<ItemListProps> = ({ items }): ReactNode => {
+const FilterList: FunctionComponent<FilterListProps> = ({ Filters }): ReactNode => {
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
   const [click, setClick] = useState<string[]>([]);
 
@@ -33,9 +48,9 @@ const ItemList: FunctionComponent<ItemListProps> = ({ items }): ReactNode => {
   };
   return (
     <div className={cx('item-list')}>
-      {items.map((item: Item, index: number) => (
+      {Filters?.map((item: Filter, index: number) => (
         <div key={index} className={cx('item')}>
-          {item.subItem ? (
+          {item?.subFilter?.length ? (
             <div className={cx('item-main')} onClick={() => handleItemClick(item.title)}>
               <div className={cx('arrow-right')}></div>
               <div className={cx('item-title')}>{item.title}</div>
@@ -44,12 +59,12 @@ const ItemList: FunctionComponent<ItemListProps> = ({ items }): ReactNode => {
               </div>
             </div>
           ) : (
-            <Link href={item.link} className={cx('item-main')}>
+            <Link href={item.slug} className={cx('item-main')}>
               <div className={cx('arrow-right')}></div>
               <div className={cx('item-title')}>{item.title}</div>
             </Link>
           )}
-          {item.subItem && (
+          {item.subFilter && (
             <div
               className={cx('sub-item-list', {
                 hide: click.includes(item.title) && !expandedItems.includes(item.title),
@@ -57,9 +72,9 @@ const ItemList: FunctionComponent<ItemListProps> = ({ items }): ReactNode => {
                 macdinh: !expandedItems.includes(item.title),
               })}
             >
-              {item.subItem.map((subItem: Item, subIndex: number) => (
+              {item.subFilter.map((subFilter: { subTitle: string; _id: string; item: Item[] }, subIndex: number) => (
                 <div key={subIndex} className={cx('sub-item')}>
-                  <h4 className={cx('sub-item-title')}>{subItem.title}</h4>
+                  <h4 className={cx('sub-item-title')}>{subFilter.subTitle}</h4>
                 </div>
               ))}
             </div>
@@ -70,4 +85,4 @@ const ItemList: FunctionComponent<ItemListProps> = ({ items }): ReactNode => {
   );
 };
 
-export default ItemList;
+export default FilterList;
