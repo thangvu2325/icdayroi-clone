@@ -1,7 +1,7 @@
 'use client';
 import { FunctionComponent, useState } from 'react';
 import classNames from 'classnames/bind';
-import styles from '@/app/(DefaultLayout)/[filterSlug]/filterSlug.module.scss';
+import styles from '@/app/(DefaultLayout)/(hasSidebar)/[filterSlug]/filterSlug.module.scss';
 import { useSelector } from 'react-redux';
 import { filterListSelector } from '@/redux/selectors';
 import Items from '@/components/Items';

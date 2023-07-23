@@ -1,0 +1,99 @@
+.wrap {
+  margin-bottom: 30px;
+  width: 100%;
+}
+.container {
+  display: flex;
+  justify-content: space-around;
+}
+.left {
+  width: 50%;
+  padding: 0 15px;
+}
+.right {
+  flex: 1;
+  padding: 0 15px;
+}
+.title {
+  text-transform: uppercase;
+  font-weight: 600;
+
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  h4 {
+    margin-top: 10px;
+  }
+}
+
+.content {
+  color: #959595;
+}
+.content-email,
+.content-password {
+  display: flex;
+  flex-direction: column;
+}
+.titleInput {
+  font-weight: 400;
+  font-size: 1.3rem;
+}
+.require {
+  color: red;
+}
+.inputEmail,
+.inputPassword {
+  border: 1px solid #f0f0f0;
+  padding: 10px;
+  width: 100%;
+  margin: 6px 10px 6px 0px;
+  outline: none;
+  color: #000;
+  height: 45px;
+  font-size: 1.4rem;
+}
+.action {
+  color: #333333;
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+}
+.btn {
+  padding: 5px 12px;
+  cursor: pointer;
+  line-height: 20px;
+}
+.btn-login {
+  font-weight: 700;
+  text-transform: uppercase;
+  &:hover {
+    border: 1px solid #2790f2;
+    background: #2790f2;
+    color: #fff;
+  }
+}
+
+.icon-lock {
+  margin-right: 10px;
+}
+.btn-forget {
+  text-decoration: underline;
+  &:hover {
+    text-decoration: none;
+  }
+}
+.text {
+  font-size: 1.4rem;
+}
+.btn-registry {
+  display: block;
+  text-align: center;
+  line-height: 45px;
+  color: var(--white);
+  background: #000;
+  height: 45px;
+  width: 120px;
+  border: none;
+  cursor: pointer;
+  &:hover {
+    background: rgba(0, 0, 0, 0.64);
+  }
+}

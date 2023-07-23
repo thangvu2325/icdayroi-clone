@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from '@/layouts/components/SideBar/SideBar.module.scss';
-import { FunctionComponent, ReactNode, useEffect, useState } from 'react';
+import { FunctionComponent, ReactNode } from 'react';
 import { IconChevronLeft, IconChevronRight, IconMenu2 } from '@tabler/icons-react';
 import FilterList from '@/components/FilterList';
 import Image from 'next/image';
@@ -15,7 +15,7 @@ interface Item {
   img_small: string;
   img_large: string;
   price_orginal: number;
-  price_final: string;
+  price_final: number;
   about?: { detail: string; specifications: string[]; specifications_img: string[] };
   slug: string;
 }

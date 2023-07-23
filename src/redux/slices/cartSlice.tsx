@@ -21,7 +21,7 @@ export default createSlice({
   reducers: {
     addItem: (state, action) => {
       state.newItem = action.payload;
-      const isItemHasInCart = state.listItem.find((item) => item._id === action.payload.id);
+      const isItemHasInCart = state.listItem.find((item) => item._id === action.payload._id);
       if (isItemHasInCart) {
         isItemHasInCart.qty++;
       } else {

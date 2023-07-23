@@ -1,13 +1,12 @@
-import { FunctionComponent, useState } from 'react';
-
+import { FunctionComponent } from 'react';
 import classNames from 'classnames/bind';
 import styles from '@/components/ModalCart/ModalCart.module.scss';
 import { IconCheck, IconChevronRight, IconCircleX, IconCircleXFilled, IconShoppingCart } from '@tabler/icons-react';
 import Image from 'next/image';
-import Button from '../Button';
+import Button from '@/components/Button';
 import { cartSelector } from '@/redux/selectors';
 import { useDispatch, useSelector } from 'react-redux';
-import cartSlice from '@/redux/cartSlice';
+import cartSlice from '@/redux/slices/cartSlice';
 const cx = classNames.bind(styles);
 interface ModalCartProps {
   open: boolean;

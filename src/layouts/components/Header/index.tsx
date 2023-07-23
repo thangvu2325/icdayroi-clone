@@ -17,11 +17,16 @@ import Image from 'next/image';
 import Button from '@/components/Button';
 import { FunctionComponent, ReactNode, SetStateAction, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import filtersSlice from '@/redux/filtersSlice';
+import filtersSlice from '@/redux/slices/filtersSlice';
+import cartSlice from '@/redux/slices/cartSlice';
 import { useSelector } from 'react-redux';
 import { itemsRemainingSelector } from '@/redux/selectors';
 import { cartSelector } from '@/redux/selectors';
-import cartSlice from '@/redux/cartSlice';
+import { authSelector } from '@/redux/selectors';
+import { logOut } from '@/redux/user/apiRequest';
+import { logOutSuccess } from '@/redux/user/authSlice';
+import { createAxios } from '@/createInstance';
+import { useRouter } from 'next/navigation';
 const cx = classNames.bind(styles);
 interface HeaderProps {}
 interface Item {
@@ -36,15 +41,28 @@ interface Item {
   about?: { detail: string; specifications: string[]; image: string[] };
   slug: string;
 }
+interface User {
+  _id: string;
+  name: string;
+  addressList: Array<Object>;
+  roles: Array<Object>;
+  email: string;
+  phone: string;
+  orders: [];
+}
 type Cart = {
   newItem?: Item;
   listItem?: Item[];
 };
 const Header: FunctionComponent<HeaderProps> = (): ReactNode => {
   const [searchValue, setSearchValue] = useState<string>('');
-
+  const currentUser: any = useSelector(authSelector).currentUser;
+  const id = currentUser?._doc._id;
   const itemList = useSelector(itemsRemainingSelector);
+  const accessToken = currentUser?.accessToken;
   const dispatch = useDispatch();
+  const axiosJWT = createAxios(currentUser, dispatch, logOutSuccess);
+  const router = useRouter();
   const handleChangeCount = (id: string, value: number) => {
     dispatch(cartSlice.actions.editCountItem({ id, value }));
   };
@@ -52,6 +70,9 @@ const Header: FunctionComponent<HeaderProps> = (): ReactNode => {
   const handleChangeSearchInput = (e: { target: { value: SetStateAction<string> } }) => {
     setSearchValue(e.target.value);
     dispatch(filtersSlice.actions.searchFilterChange(e.target.value));
+  };
+  const handleLogout = () => {
+    logOut(dispatch, id, router, accessToken, axiosJWT);
   };
   return (
     <div className={cx('wrap')}>
@@ -130,7 +151,13 @@ const Header: FunctionComponent<HeaderProps> = (): ReactNode => {
                     <IconUserCircle size={31} stroke={1} />
                   </div>
                   <div className={cx('user-action')}>
-                    <Link href="/taikhoan">Tài Khoản</Link> / <Link href="/logout">Đăng Xuất</Link>
+                    {currentUser ? (
+                      <>
+                        <Link href="/account">Tài Khoản</Link>/<span onClick={handleLogout}>Đăng Xuất</span>
+                      </>
+                    ) : (
+                      <Link href="/account/login">Đăng nhập</Link>
+                    )}
                   </div>
                 </div>
 

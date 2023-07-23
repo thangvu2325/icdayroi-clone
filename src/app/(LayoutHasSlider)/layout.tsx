@@ -7,7 +7,7 @@ import classNames from 'classnames/bind';
 import styles from '@/app/(DefaultLayout)/DefaultLayout.module.scss';
 import Footer from '@/layouts/components/Footer';
 import { useEffect } from 'react';
-import { fetchFilterData } from '@/redux/filterListSlice';
+import { fetchFilterData } from '@/redux/slices/filterListSlice';
 import { useDispatch } from 'react-redux';
 const cx = classNames.bind(styles);
 export default function DefaultLayout({ children }: { children: React.ReactNode }) {

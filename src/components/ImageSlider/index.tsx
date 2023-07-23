@@ -28,7 +28,7 @@ const ImageSlider: FC = () => {
       onSwiper={(swiper) => (swiperRef.current = swiper)}
     >
       <SwiperSlide>
-        <Image src="/assets/images/slide-img.webp" width={1140} height={350} alt="Picture is here in Slider" />
+        <Image src="/assets/images/slide-img.webp" width={1140} height={350} alt="Picture is here in Slider" priority />
       </SwiperSlide>
       <SwiperSlide>
         <Image src="/assets/images/slide-img2.jpg" width={1140} height={350} alt="Picture is here in Slider" />

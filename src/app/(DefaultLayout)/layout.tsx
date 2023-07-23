@@ -1,12 +1,11 @@
 'use client';
 import Header from '@/layouts/components/Header';
 import Navbar from '@/layouts/components/Navbar';
-import SideBar from '@/layouts/components/SideBar';
 import classNames from 'classnames/bind';
 import styles from '@/app/(DefaultLayout)/DefaultLayout.module.scss';
 import Footer from '@/layouts/components/Footer';
 import { useEffect } from 'react';
-import { fetchFilterData } from '@/redux/filterListSlice';
+import { fetchFilterData } from '@/redux/slices/filterListSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { IconChevronsRight } from '@tabler/icons-react';
 import { usePathname } from 'next/navigation';
@@ -51,6 +50,9 @@ export default function DefaultLayout({ children }: { children: React.ReactNode 
   const ItemSelect = items.find((item) => {
     return item.slug === pathname[pathname.length - 1];
   });
+  if (ItemSelect?.name) {
+    pathname[pathname.length - 1] = ItemSelect.name;
+  }
   useEffect(() => {
     dispatch(fetchFilterData());
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -65,9 +67,19 @@ export default function DefaultLayout({ children }: { children: React.ReactNode 
             <div className={cx('inner-nav')}>
               <div className={cx('nav-title')}>Trang chủ</div>
             </div>
-            <div className={cx('nav-icon')}>
-              <IconChevronsRight size={16} />
-            </div>
+            {pathname.map((item, index) => {
+              console.log(item);
+              return (
+                <span className={cx('nav')} key={index}>
+                  <div className={cx('nav-icon')}>
+                    <IconChevronsRight size={16} />
+                  </div>
+                  <div className={cx('inner-nav')}>
+                    <div className={cx('nav-title')}>{item}</div>
+                  </div>
+                </span>
+              );
+            })}
           </>
         </div>
       </div>
@@ -76,7 +88,6 @@ export default function DefaultLayout({ children }: { children: React.ReactNode 
           mtt0: true,
         })}
       >
-        <SideBar />
         {children}
       </div>
       <Footer />

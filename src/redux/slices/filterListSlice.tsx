@@ -21,7 +21,7 @@ interface Filter {
 }
 
 export const fetchFilterData: any = createAsyncThunk('filterList/fetchData', async () => {
-  const response = await fetch('http://localhost:3000/api/listFilters'); // Gọi API để lấy dữ liệu
+  const response = await fetch('http://localhost:3001/api/listFilters'); // Gọi API để lấy dữ liệu
   const data = await response.json();
   return data;
 });

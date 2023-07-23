@@ -11,12 +11,21 @@ interface Item {
   about?: { detail: string; specifications: string[]; specifications_img: string[] };
   slug: string;
 }
+
 interface Filter {
   _id: string;
   title: string;
   subFilter?: [{ subTitle: string; _id: string; item: Item[] }];
   item?: Item[];
   slug: string;
+}
+
+interface Login {
+  currentUser: any;
+  isFetching: boolean;
+  errorMessage: string | null;
+  successMessage: string | null;
+  error: boolean;
 }
 export const searchTextSelector = (state: {
   filters: {
@@ -31,6 +40,7 @@ export const filterListSelector = (state: {
     loading: string;
   };
 }) => state.filterList.data;
+export const authSelector = (state: { auth: { login: any } }) => state.auth.login;
 
 export const itemsRemainingSelector = createSelector(
   searchTextSelector,
