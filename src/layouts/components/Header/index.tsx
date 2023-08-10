@@ -41,14 +41,26 @@ interface Item {
   about?: { detail: string; specifications: string[]; image: string[] };
   slug: string;
 }
+interface Order {
+  orderId: string;
+  addressReceive: string;
+  orderValue: number;
+  status: string;
+  date: string;
+  Receiver: string;
+}
+
 interface User {
-  _id: string;
-  name: string;
-  addressList: Array<Object>;
-  roles: Array<Object>;
-  email: string;
-  phone: string;
-  orders: [];
+  _doc: {
+    _id: string;
+    name: string;
+    addressList: Array<Object>;
+    roles: Array<Object>;
+    email: string;
+    phone: string;
+    orders: Order[];
+  };
+  accessToken: string;
 }
 type Cart = {
   newItem?: Item;
@@ -56,7 +68,7 @@ type Cart = {
 };
 const Header: FunctionComponent<HeaderProps> = (): ReactNode => {
   const [searchValue, setSearchValue] = useState<string>('');
-  const currentUser: any = useSelector(authSelector).currentUser;
+  const currentUser: User = useSelector(authSelector).currentUser;
   const id = currentUser?._doc._id;
   const itemList = useSelector(itemsRemainingSelector);
   const accessToken = currentUser?.accessToken;

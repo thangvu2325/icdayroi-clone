@@ -10,8 +10,8 @@ import {
   registerStart,
   registerSuccess,
 } from './authSlice';
-
-export const loginUser = async (user, dispatch, router) => {
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
+export const loginUser = async (user: { email: string; password: string }, dispatch, router: AppRouterInstance) => {
   dispatch(loginStart());
   try {
     const res = await axios.post('http://localhost:3001/auth/login', user, {
@@ -24,12 +24,20 @@ export const loginUser = async (user, dispatch, router) => {
   }
 };
 
-export const registerUser = async (user, dispatch, navigate) => {
+export const registerUser = async (
+  user: {
+    email: string;
+    password: string;
+    name: string;
+  },
+  dispatch,
+  router: AppRouterInstance,
+) => {
   dispatch(registerStart());
   try {
-    await axios.post('http://localhost:3001/auth/register', user);
+    await axios.post('http://localhost:3001/auth/signup', user);
     dispatch(registerSuccess());
-    navigate('/login');
+    router.push('/account/login');
     return true;
   } catch (err) {
     dispatch(registerFailed());
