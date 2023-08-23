@@ -1,0 +1,70 @@
+<div class="home">
+  <div class="container">
+    <div class="dropdown">
+      <button
+        class="btn btn-secondary dropdown-toggle"
+        type="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        subFilter
+      </button>
+      <ul class="dropdown-menu">
+        {{#each data.subFilter}}
+          <li><a
+              class="dropdown-item"
+              href="{{filterId}}/{{this.slug}}"
+            >{{this.subTitle}}</a></li>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+  <table class="table" style="width: 100%; ">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Tên Vật Phẩm:</th>
+        <th scope="col">Số Lượng:</th>
+        <th scope="col">Giá:</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each data.item}}
+        <tr>
+          <th scope="row">{{sum @index 1}}</th>
+          <td><a href="/item/{{this.slug}}">{{this.name}}</a></td>
+          <td>
+            {{this.qty}}
+          </td>
+          <td>
+            {{this.price_final}}đ
+          </td>
+          <td>
+            <a href="/item/{{this.slug}}/edit" class="btn btn-link">Sửa</a>
+            <a
+              href=""
+              class="btn btn-link"
+              data-toggle="modal"
+              data-id="{{this._id}}"
+              data-target="#delete-course-modal"
+            >Xóa</a>
+          </td>
+        </tr>
+      {{else}}
+        <tr>
+          <td colspan="5" class="text-center">
+            Bạn chưa vật phẩm nào
+            <br />
+            <a href="/addFilter">Thêm Filter</a>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <div style="text-align: right; margin-right: 100px;"><a
+      href="/"
+      style="padding: 12px 24px; border-radius: 4px; border: 1px solid #ccc; cursor: pointer;"
+    >Back
+    </a>
+  </div>
+</div>

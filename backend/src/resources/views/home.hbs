@@ -1,0 +1,80 @@
+<div class="home">
+  <div class="container">
+    <div class="dropdown">
+      <button
+        class="btn btn-secondary dropdown-toggle"
+        type="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        Filter
+      </button>
+      <ul class="dropdown-menu">
+        {{#each data}}
+          <li><a
+              class="dropdown-item"
+              href={{this.slug}}
+            >{{this.title}}</a></li>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+  <table class="home-table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Filter</th>
+        <th scope="col">subFilter</th>
+        <th scope="col">Số lượng vật phẩm</th>
+        <th scope="col">Số lượng vật phẩm đã xóa</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each data}}
+        <tr>
+          <th scope="row">{{sum @index 1}}</th>
+          <td><a href="/{{this.slug}}">{{this.title}}
+              {{this.totalItems}}</a></td>
+          <td>
+            {{#each this.subFilter}}
+              <a href="/{{this.slug}}">{{this.subTitle}}</a>
+              <br />
+            {{else}}
+              Không
+            {{/each}}
+          </td>
+          <td>
+            <div>{{this.item.length}}
+            </div>
+            <br />
+          </td>
+          <td>
+            {{#if deletedCount}}
+              {{deletedCount}}
+            {{else}}
+              0
+            {{/if}}
+          </td>
+          <td>
+            <a href="/courses/{{this._id}}/edit" class="btn btn-link">Sửa</a>
+            <a
+              href=""
+              class="btn btn-link"
+              data-toggle="modal"
+              data-id="{{this._id}}"
+              data-target="#delete-course-modal"
+            >Xóa</a>
+          </td>
+        </tr>
+      {{else}}
+        <tr>
+          <td colspan="5" class="text-center">
+            Bạn chưa vật phẩm nào
+            <br />
+            <a href="/addFilter">Thêm Filter</a>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
