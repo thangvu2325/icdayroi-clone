@@ -12,7 +12,7 @@ const cx = classNames.bind(styles);
 
 interface ItemsProps {
   title?: string;
-  items: Item[];
+  items: Item[] | undefined;
   horizon_line?: boolean;
 }
 
@@ -34,18 +34,19 @@ const Items: FunctionComponent<ItemsProps> = ({ horizon_line, title, items }): R
           <h2 className={cx('top-title')}>{title}</h2>
         </div>
         <div className={cx('items')}>
-          {items.slice(0, 24).map((item, index) => (
-            <div key={index} className={cx('item')}>
-              <Link className={cx('item-img')} href={'item/' + item.slug}>
-                <Image src={item.img_small} alt="item" width={200} height={200} style={{ objectFit: 'cover' }} />
-              </Link>
-              <div className={cx('item-title')}>{item.name}</div>
-              <div className={cx('item-price')}>{item.price_final.toLocaleString()}₫</div>
-              <Button outline className={cx('item-btn')} onClick={() => handleClickButton(item)}>
-                Mua Ngay
-              </Button>
-            </div>
-          ))}
+          {items &&
+            items.slice(0, 24).map((item, index) => (
+              <div key={index} className={cx('item')}>
+                <Link className={cx('item-img')} href={'item/' + item.slug}>
+                  <Image src={item.img_small} alt="item" width={200} height={200} style={{ objectFit: 'cover' }} />
+                </Link>
+                <div className={cx('item-title')}>{item.name}</div>
+                <div className={cx('item-price')}>{item.price_final.toLocaleString()}₫</div>
+                <Button outline className={cx('item-btn')} onClick={() => handleClickButton(item)}>
+                  Mua Ngay
+                </Button>
+              </div>
+            ))}
         </div>
         <div className={cx('action')}>
           <Button href="/all" primary semiRounded className={cx('action-btn')}>

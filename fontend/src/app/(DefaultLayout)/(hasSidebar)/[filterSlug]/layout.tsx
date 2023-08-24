@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { Metadata } from 'next';
 
 type Props = {
@@ -6,9 +7,11 @@ type Props = {
 
 export const generateMetadata = async (props: Props): Promise<Metadata> => {
   const { params } = props;
-  // const filter = await fetchProductById(params.productId)
+  const filter = await axios.get(`http://localhost:3001/api/listFilters/${params.filterSlug}`, {
+    withCredentials: true,
+  });
   return {
-    title: params.filterSlug,
+    title: filter.data.title,
   };
 };
 export default function RootLayout({ children }: { children: React.ReactNode }) {

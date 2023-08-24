@@ -1,12 +1,13 @@
 'use client';
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from '@/app/(DefaultLayout)/(hasSidebar)/[filterSlug]/filterSlug.module.scss';
 import { useSelector } from 'react-redux';
-import { ItemsSelector, filterListSelector } from '@/redux/selectors';
+import { filterListSelector } from '@/redux/selectors';
 import Items from '@/components/Items';
 import { IconLayoutGrid, IconListDetails } from '@tabler/icons-react';
-import { Item, Filter, ItemData } from '@/types/frontEnd';
+import { Item, Filter, ItemRes } from '@/types/frontEnd';
+import { getItem } from '@/api/itemRequest';
 const cx = classNames.bind(styles);
 interface FilterPageProps {
   params: { filterSlug: string };
@@ -14,19 +15,27 @@ interface FilterPageProps {
 
 const FilterPage: FunctionComponent<FilterPageProps> = ({ params: { filterSlug } }) => {
   const filterList: Filter[] = useSelector(filterListSelector);
-  const items: Item[] = useSelector(ItemsSelector).items;
-  let itemData;
+  const [items, setItems] = useState<ItemRes | false>({});
+  let itemData: Item[] | undefined = [];
   const [viewMode, setViewMode] = useState<Boolean>(false);
   let title;
   const filterSelect: Filter | undefined = filterList.find((filter) => {
     return filter.slug === filterSlug;
   });
+  useEffect(() => {
+    const fetchData = async () => {
+      const data: ItemRes | false = await getItem(1, filterSelect && filterSelect?.title);
+      setItems(data);
+    };
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   if (!filterSelect) {
     title = 'Tất cả';
-    itemData = items;
+    itemData = items ? items.itemsData : [];
   } else {
     title = filterSelect.title;
-    itemData = items.filter((item) => item.Filter === filterSelect.title);
+    itemData = items ? items.itemsData?.filter((item) => item.Filter === filterSelect.title) : [];
   }
   const handleViewMode = (viewMode: boolean) => {
     setViewMode(viewMode);

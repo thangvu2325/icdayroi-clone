@@ -6,84 +6,15 @@ class ListFilterControllers {
       res.json(item);
     });
   }
-  FilterbyID(req, res) {
-    const filterId = req.params.id;
-    FilterList.findById({ _id: filterId })
-      .exec()
+
+  getFiltertBySlug(req, res) {
+    const filterSlug = req.params.slug;
+    FilterList.findOne({ slug: filterSlug })
       .then((item) => {
-        res.json(item);
-      });
-  }
-  addItem(req, res) {
-    const {
-      specificationsImg,
-      specifications,
-      filter,
-      title,
-      img,
-      imgLarge,
-      price,
-      detail,
-      qty,
-    } = req.body;
-    const array_img = specificationsImg ? specificationsImg.split("|") : [];
-    const array = specifications ? specifications.split("|") : [];
-    FilterList.findOne({ title: filter })
-      .then((foundFilter) => {
-        if (!foundFilter) {
-          return FilterList.findOne({ "subFilter.subTitle": filter });
-        }
-        return foundFilter;
+        res.status(200).json(item);
       })
-      .then((foundFilter) => {
-        if (!foundFilter) {
-          throw new Error("Không tìm thấy bộ lọc");
-        }
-        return foundFilter;
-      })
-      .then((foundFilter) => {
-        if (foundFilter.title === filter) {
-          foundFilter.item.push({
-            name: title,
-            img_small: img,
-            img_large: imgLarge,
-            price_orginal: price,
-            price_final: price,
-            about: {
-              detail,
-              specifications: array,
-              specifications_img: array_img,
-            },
-            qty,
-          });
-        } else {
-          const subFilter = foundFilter.subFilter.find(
-            (sub) => sub.subTitle === filter
-          );
-          if (!subFilter) {
-            throw new Error("Không tìm thấy bộ lọc phụ");
-          }
-          subFilter.item.push({
-            name: title,
-            img_small: img,
-            imgLarge: imgLarge,
-            price_orginal: price,
-            price_final: price,
-            about: {
-              detail,
-              specifications: array,
-              specifications_img: array_img,
-            },
-            qty,
-          });
-        }
-        return foundFilter.save();
-      })
-      .then(() => {
-        res.send("Đã lưu thành công!");
-      })
-      .catch((error) => {
-        res.send(error);
+      .catch((err) => {
+        res.status(500).json({ err: "err" });
       });
   }
   addFilter(req, res) {

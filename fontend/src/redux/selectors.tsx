@@ -15,20 +15,20 @@ export const filterListSelector = (state: {
   };
 }) => state.filterList.data;
 export const authSelector = (state: { auth: { login: any } }) => state.auth.login;
-export const ItemsSelector = (state: {
-  item: {
-    data: ItemData;
-  };
-}) => state.item.data;
-export const itemsRemainingSelector = createSelector(
-  searchTextSelector,
-  ItemsSelector,
-  (searchText: string, itemData: ItemData) => {
-    const lowerCaseSearchText = searchText.toLowerCase();
-    const itemList: Item[] = itemData.items;
-    return itemList.filter((item) => {
-      const lowerCaseItemName = item.name.toLowerCase();
-      return lowerCaseItemName.includes(lowerCaseSearchText);
-    });
-  },
-);
+// export const ItemsSelector = (state: {
+//   item: {
+//     data: ItemData;
+//   };
+// }) => state.item.data;
+// export const itemsRemainingSelector = createSelector(
+//   searchTextSelector,
+//   ItemsSelector,
+//   (searchText: string, itemData: ItemData) => {
+//     const lowerCaseSearchText = searchText.toLowerCase();
+//     const itemList: Item[] = itemData.items;
+//     return itemList.filter((item) => {
+//       const lowerCaseItemName = item.name.toLowerCase();
+//       return lowerCaseItemName.includes(lowerCaseSearchText);
+//     });
+//   },
+// );

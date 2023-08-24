@@ -83,3 +83,9 @@ export interface IUser {
   };
   accessToken: string;
 }
+export interface ItemRes {
+  itemsData?: Item[];
+  currentPage?: string;
+  totalPages?: string;
+  failMessage?: Object;
+}

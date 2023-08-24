@@ -20,7 +20,7 @@ import { useDispatch } from 'react-redux';
 import filtersSlice from '@/redux/slices/filtersSlice';
 import cartSlice from '@/redux/slices/cartSlice';
 import { useSelector } from 'react-redux';
-import { itemsRemainingSelector } from '@/redux/selectors';
+// import { itemsRemainingSelector } from '@/redux/selectors';
 import { cartSelector } from '@/redux/selectors';
 import { authSelector } from '@/redux/selectors';
 import { logOut } from '@/redux/user/apiRequest';
@@ -35,7 +35,7 @@ const Header: FunctionComponent<HeaderProps> = (): ReactNode => {
   const [searchValue, setSearchValue] = useState<string>('');
   const currentUser: IUser = useSelector(authSelector).currentUser;
   const id = currentUser?._doc._id;
-  const itemList = useSelector(itemsRemainingSelector);
+  // const itemList = useSelector(itemsRemainingSelector);
   const accessToken = currentUser?.accessToken;
   const dispatch = useDispatch();
   const axiosJWT = createAxios(currentUser, dispatch, logOutSuccess);
@@ -93,7 +93,7 @@ const Header: FunctionComponent<HeaderProps> = (): ReactNode => {
                     render={(attrs) => {
                       return (
                         <div className={cx('search-menu')} tabIndex={-1} {...attrs}>
-                          {itemList.length
+                          {/* {itemList.length
                             ? itemList.map((item, index) => (
                                 <div className={cx('search-item')} key={index}>
                                   <Image src={item.img_small} alt="image item" width={32} height={32}></Image>
@@ -101,7 +101,7 @@ const Header: FunctionComponent<HeaderProps> = (): ReactNode => {
                                   <div className={cx('search-item-price')}>{item.price_final.toLocaleString()}₫</div>
                                 </div>
                               ))
-                            : ''}
+                            : ''} */}
                         </div>
                       );
                     }}
