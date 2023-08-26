@@ -37,7 +37,7 @@ const Items: FunctionComponent<ItemsProps> = ({ horizon_line, title, items }): R
           {items &&
             items.slice(0, 24).map((item, index) => (
               <div key={index} className={cx('item')}>
-                <Link className={cx('item-img')} href={'item/' + item.slug}>
+                <Link className={cx('item-img')} href={'item/' + item._id}>
                   <Image src={item.img_small} alt="item" width={200} height={200} style={{ objectFit: 'cover' }} />
                 </Link>
                 <div className={cx('item-title')}>{item.name}</div>

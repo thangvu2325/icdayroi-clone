@@ -15,7 +15,7 @@ import Tippy from '@tippyjs/react/headless'; // different import path!
 import 'tippy.js/dist/tippy.css';
 import Image from 'next/image';
 import Button from '@/components/Button';
-import { FunctionComponent, ReactNode, SetStateAction, useState } from 'react';
+import { FunctionComponent, ReactNode, useRef, useState, useEffect, MutableRefObject } from 'react';
 import { useDispatch } from 'react-redux';
 import filtersSlice from '@/redux/slices/filtersSlice';
 import cartSlice from '@/redux/slices/cartSlice';
@@ -27,27 +27,53 @@ import { logOut } from '@/redux/user/apiRequest';
 import { logOutSuccess } from '@/redux/user/authSlice';
 import { createAxios } from '@/createInstance';
 import { useRouter } from 'next/navigation';
-import { IUser, Cart } from '@/types/frontEnd';
+import { IUser, Cart, Item } from '@/types/frontEnd';
+import { searchItem } from '@/api/itemRequest';
+import useDebounce from '@/hook/useDebounce';
 const cx = classNames.bind(styles);
 interface HeaderProps {}
 
 const Header: FunctionComponent<HeaderProps> = (): ReactNode => {
   const [searchValue, setSearchValue] = useState<string>('');
+  const [itemSearch, setItemSearch] = useState<Item[] | false>([]);
   const currentUser: IUser = useSelector(authSelector).currentUser;
   const id = currentUser?._doc._id;
-  // const itemList = useSelector(itemsRemainingSelector);
   const accessToken = currentUser?.accessToken;
   const dispatch = useDispatch();
   const axiosJWT = createAxios(currentUser, dispatch, logOutSuccess);
   const router = useRouter();
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const debouncedValue = useDebounce(searchValue, 500);
   const handleChangeCount = (id: string, value: number) => {
     dispatch(cartSlice.actions.editCountItem({ id, value }));
   };
   const cart: Cart = useSelector(cartSelector) || {};
-  const handleChangeSearchInput = (e: { target: { value: SetStateAction<string> } }) => {
-    setSearchValue(e.target.value);
-    dispatch(filtersSlice.actions.searchFilterChange(e.target.value));
+
+  // const handleClear = () => {
+  //   setSearchValue('');
+  //   setItemSearch([]);
+  //   if (inputRef.current) {
+  //     inputRef.current.focus();
+  //   }
+  // };
+
+  const handleChangeSearchInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const searchValue = e.target.value;
+    if (!searchValue.startsWith(' ')) return setSearchValue(e.target.value);
   };
+  useEffect(() => {
+    if (!debouncedValue.trim()) {
+      setItemSearch([]);
+      return;
+    }
+
+    // Asyn await
+    const fetchApi = async () => {
+      const result = await searchItem(debouncedValue);
+      setItemSearch(result);
+    };
+    fetchApi();
+  }, [debouncedValue]);
   const handleLogout = () => {
     logOut(dispatch, id, router, accessToken, axiosJWT);
   };
@@ -93,20 +119,21 @@ const Header: FunctionComponent<HeaderProps> = (): ReactNode => {
                     render={(attrs) => {
                       return (
                         <div className={cx('search-menu')} tabIndex={-1} {...attrs}>
-                          {/* {itemList.length
-                            ? itemList.map((item, index) => (
+                          {itemSearch
+                            ? itemSearch.map((item, index) => (
                                 <div className={cx('search-item')} key={index}>
                                   <Image src={item.img_small} alt="image item" width={32} height={32}></Image>
                                   <div className={cx('search-item-title')}>{item.name}</div>
                                   <div className={cx('search-item-price')}>{item.price_final.toLocaleString()}₫</div>
                                 </div>
                               ))
-                            : ''} */}
+                            : ''}
                         </div>
                       );
                     }}
                   >
                     <input
+                      ref={inputRef}
                       placeholder="Nhập từ khóa cần tìm"
                       type="text"
                       className={cx('search-input')}

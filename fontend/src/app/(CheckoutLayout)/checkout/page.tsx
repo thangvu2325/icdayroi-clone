@@ -234,7 +234,7 @@ const CheckoutPage: FunctionComponent<CheckoutPageProps> = () => {
                     <span className={cx('field__title')}>Sổ địa chỉ</span>
                     <select size={1} className={cx('field__input--select')} onChange={handleChangeAddressList}>
                       <option value="default">Địa chỉ khác...</option>
-                      {currentUser._doc.addressList.map((address: address) => (
+                      {currentUser._doc.addressList.map((address: Address) => (
                         <option value={address._id} key={address._id}>
                           {address.firstName}
                         </option>
@@ -384,8 +384,8 @@ const CheckoutPage: FunctionComponent<CheckoutPageProps> = () => {
               <div className={cx('top-title')}>Tạm Tính</div>
               <div className={cx('top-price')}>
                 {cart.listItem
-                  ?.reduce((sum, item) => {
-                    return sum + item.price_final;
+                  ?.reduce((sum: number, item: Item): number => {
+                    return Number(sum + item.price_final);
                   }, 0)
                   .toLocaleString()}
                 ₫
@@ -398,8 +398,8 @@ const CheckoutPage: FunctionComponent<CheckoutPageProps> = () => {
                 <div className={cx('bottom-title')}>Tổng cộng</div>
                 <div className={cx('bottom-price')}>
                   {cart.listItem
-                    ?.reduce((sum, item) => {
-                      return sum + item.price_final;
+                    ?.reduce((sum: number, item: Item): number => {
+                      return Number(sum + item.price_final);
                     }, 0)
                     .toLocaleString()}
                   ₫

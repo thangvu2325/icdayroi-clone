@@ -11,7 +11,7 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
     withCredentials: true,
   });
   return {
-    title: filter.data.title,
+    title: filter?.data?.title,
   };
 };
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -1,43 +1,33 @@
 'use client';
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from '@/app/(DefaultLayout)/(hasSidebar)/item/[idItem]/ItemPurchase.module.scss';
-import { useSelector } from 'react-redux';
-import { filterListSelector } from '@/redux/selectors';
+
 import Image from 'next/image';
 import Button from '@/components/Button';
 import Items from '@/components/Items';
-import { Item, Filter } from '@/types/frontEnd';
+import { Item } from '@/types/frontEnd';
+import { getItembyId } from '@/api/itemRequest';
+import axios from 'axios';
 const cx = classNames.bind(styles);
 interface ItemPurchaseProps {
   params: { idItem: string };
 }
 
-// export async function generateMetadata({ params: { idItem } }: Params, item): Promise<Metadata> {
-//   return {
-//     title: 'ab',
-//     description: `This is the page of ${item}`,
-//   };
-// }
-
 const ItemPurchase: FunctionComponent<ItemPurchaseProps> = ({ params: { idItem } }) => {
-  const filterList: Filter[] = useSelector(filterListSelector);
-  const items: Item[] = [];
-  filterList.forEach((filter) => {
-    if (filter.item && filter.item.length) {
-      items.push(...filter.item);
-    }
-    if (filter.subFilter && filter.subFilter.length) {
-      filter.subFilter.forEach((subFilter) => {
-        if (subFilter.item && subFilter.item.length) {
-          items.push(...subFilter.item);
-        }
+  const [ItemSelect, setItemSelect] = useState<Item | false>();
+  useEffect(() => {
+    const fetchData = async () => {
+      const item = await axios.get(`http://localhost:3001/api/item/${idItem}`, {
+        withCredentials: true,
       });
-    }
-  });
-  const ItemSelect = items.find((item) => {
-    return item.slug === idItem;
-  });
+      console.log(item);
+      setItemSelect(item.data);
+    };
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [idItem]);
+  console.log(ItemSelect);
   const [countValue, setCountValue] = useState<number>(1);
   const handleChangeCount = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCountValue(Number(e.target.value));
@@ -52,7 +42,7 @@ const ItemPurchase: FunctionComponent<ItemPurchaseProps> = ({ params: { idItem }
             </div>
             <div className={cx('item-content')}>
               <div className={cx('title')}>{ItemSelect.name}</div>
-              <div className={cx('price')}>{ItemSelect.price_final}₫</div>
+              <div className={cx('price')}>{ItemSelect.price_final.toLocaleString()}₫</div>
               <div className={cx('stock')}>Còn hàng</div>
               <div className={cx('describe')}>
                 <div className={cx('describe-title')}>Mô tả:</div>
@@ -87,13 +77,11 @@ const ItemPurchase: FunctionComponent<ItemPurchaseProps> = ({ params: { idItem }
               <h3 className={cx('middle-bottom-detail')}>{ItemSelect.about?.detail}</h3>
               <h3 className={cx('specifications')}></h3>
               <div className={cx('list')}>
-                {ItemSelect.about?.specifications.map((item, index) => {
-                  return (
-                    <div key={index} className={cx('item')}>
-                      - {item}
-                    </div>
-                  );
-                })}
+                {ItemSelect.about?.specifications[0] !== undefined ? (
+                  <div dangerouslySetInnerHTML={{ __html: ItemSelect.about?.specifications[0] }} />
+                ) : (
+                  <span>No specifications available.</span>
+                )}
               </div>
               <div className={cx('image')}>
                 {ItemSelect.about?.specifications_img?.map((item, index) => {

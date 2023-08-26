@@ -1,7 +1,7 @@
 import Item from "../models/Item.js";
 import FilterList from "../models/FilterList.js";
 class itemControllers {
-  getItem(req, res, next) {
+  getItem(req, res) {
     const dataQuery = req.query;
     const itemsPerPage = 24;
     const propertyList = Object.keys(dataQuery);
@@ -55,15 +55,33 @@ class itemControllers {
         res.status(500).json({ message: "An error occurred" });
       });
   }
-
-  getItemFilter(req, res, next) {
-    const filter = req.param.filtler;
-    Item.find({ Filter: filter })
-      .then((items) => {
-        res.status(200).json({ items });
+  getItemById(req, res, next) {
+    const itemId = req.params.id;
+    Item.findById(itemId)
+      .then((item) => {
+        if (!item) {
+          return res.status(404).json({ message: "Item not found" });
+        }
+        res.status(200).json(item);
       })
       .catch((error) => {
         res.status(500).json({ message: "An error occurred" });
+      });
+  }
+  // Search Item
+  searchItem(req, res) {
+    const q = req.query.q;
+    Item.find({})
+      .then((items) => {
+        const lowerCaseSearchText = q.toLowerCase();
+        const data = items.filter((item) => {
+          const lowerCaseItemName = item.name.toLowerCase();
+          return lowerCaseItemName.includes(lowerCaseSearchText);
+        });
+        res.status(200).json(data);
+      })
+      .catch((error) => {
+        res.status(500).json({ error: "An error occurred" });
       });
   }
   //   add Item
@@ -92,8 +110,6 @@ class itemControllers {
         if (!item) {
           return res.status(404).json({ error: "Item not found" });
         }
-        console.log(item);
-        // Perform the deletion of the item
         return item.deleteOne();
       })
       .then(() => {

@@ -10,10 +10,11 @@ router.post("/addlistFilters", ListFilterControllers.addFilter);
 router.post("/addorder", ListFilterControllers.addOder);
 
 // item
-router.get("/item", itemControllers.getItem);
-router.get("/item/:filter", itemControllers.getItemFilter);
+router.get("/item/search", itemControllers.searchItem);
 router.post("/item/addItem", itemControllers.addItem);
+router.get("/item/:id", itemControllers.getItemById);
 router.delete("/item/:id/delete", itemControllers.deleteItem);
 router.put("/item/:id/edit", itemControllers.editItem);
+router.get("/item", itemControllers.getItem);
 
 export default router;
