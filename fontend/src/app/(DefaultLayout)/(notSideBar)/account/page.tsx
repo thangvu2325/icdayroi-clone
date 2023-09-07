@@ -5,13 +5,13 @@ import styles from '@/app/(DefaultLayout)/(notSideBar)/account/AccountPage.modul
 import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import { authSelector } from '@/redux/selectors';
-import { User } from '@/types/frontEnd';
+import { Item, User } from '@/types/frontEnd';
 const cx = classNames.bind(styles);
 
 interface AccountPageProps {}
 
 const AccountPage: FunctionComponent<AccountPageProps> = () => {
-  const currentUser: User = useSelector(authSelector).currentUser._doc;
+  const currentUser: User = useSelector(authSelector)._doc;
   return (
     <div className={cx('wrap')}>
       <div className={cx('container')}>
@@ -35,12 +35,20 @@ const AccountPage: FunctionComponent<AccountPageProps> = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {currentUser?.orders?.map((order) => {
+                  {currentUser?.order?.map((order) => {
                     return (
-                      <tr key={order?.orderId}>
+                      <tr key={order?._id}>
+                        <td>{order?._id}</td>
                         <td>{order.date}</td>
-                        <td>{order.Receiver}</td>
+                        <td>{order.receiver}</td>
                         <td>{order.addressReceive}</td>
+                        <td>
+                          {order.items
+                            ? order.items.reduce((total: Number, num: Item) => {
+                                return Number(total + num.price_final);
+                              }, 0)
+                            : 0}
+                        </td>
                         <td>{order.status}</td>
                       </tr>
                     );
@@ -67,10 +75,10 @@ const AccountPage: FunctionComponent<AccountPageProps> = () => {
                   Quốc gia:<span>Vietnam</span>
                 </div>
                 <div className={cx('user-phone')}>
-                  Số điện thoại: <span>+84{currentUser.phone.slice(1)}</span>
+                  Số điện thoại: <span>+84{currentUser?.phone?.slice(1)}</span>
                 </div>
                 <Link className={cx('user-address')} href="/account/address">
-                  Sổ địa chỉ ({currentUser.addressList.length})
+                  Sổ địa chỉ ({currentUser.addressList?.length})
                 </Link>
               </div>
             </div>

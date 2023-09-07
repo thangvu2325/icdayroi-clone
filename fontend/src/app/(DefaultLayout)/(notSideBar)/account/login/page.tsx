@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { authSelector } from '@/redux/selectors';
 import { useRouter } from 'next/navigation';
+import { IUser } from '@/types/frontEnd';
 const cx = classNames.bind(styles);
 interface LoginPageProps {}
 
@@ -22,7 +23,7 @@ const LoginPage: FunctionComponent<LoginPageProps> = () => {
   };
   const dispatch = useDispatch();
   const router = useRouter();
-  const currentUser: any = useSelector(authSelector).currentUser;
+  const currentUser: IUser = useSelector(authSelector);
   const handleLogin = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     const newUser = {

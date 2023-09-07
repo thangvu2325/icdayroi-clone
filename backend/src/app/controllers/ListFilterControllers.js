@@ -42,18 +42,16 @@ class ListFilterControllers {
       date: Date.now(),
       ...req.body,
     };
-    User.findById(req.body._id)
+    User.findById(req.params.userId)
       .then((user) => {
         if (!user) {
           return res.status(404).json({ error: "User not found" });
         }
-
         user.orders.push(order);
-
         return user.save();
       })
       .then(() => {
-        return res.status(200).json({ success: true });
+        return res.status(200).json({ status: "add Thành công" });
       })
       .catch((error) => {
         console.error(error);

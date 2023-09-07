@@ -26,20 +26,13 @@ class authControllers {
             message: "Invalid Password!",
           });
         }
-        const accessToken = jwt.sign(
-          { id: user._id },
-          env.JSON_WEB_TOKEN_HIDEN,
-          {
-            expiresIn: "20s",
-          }
-        );
-        const refreshToken = jwt.sign(
-          { id: user.id },
-          env.JSON_WEB_TOKEN_HIDEN,
-          {
-            expiresIn: "60s",
-          }
-        );
+
+        const accessToken = jwt.sign({ id: user._id }, env.AccessToken_HIDEN, {
+          expiresIn: "20s",
+        });
+        const refreshToken = jwt.sign({ id: user.id }, env.RefreshToken_HIDEN, {
+          expiresIn: "3600s",
+        });
         refreshTokens.push(refreshToken);
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
@@ -47,7 +40,6 @@ class authControllers {
           path: "/",
           sameSite: "strict",
         });
-        const { password, ...props } = user;
         const _doc = {
           _id: user._id,
           name: user.name,
@@ -88,6 +80,7 @@ class authControllers {
         }
       })
       .then(() => {
+        console.log(1);
         res.send({ message: "User was registered successfully!" });
       })
       .catch((err) => {
@@ -98,17 +91,9 @@ class authControllers {
     const refreshToken = req.cookies.refreshToken;
     refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
     res.clearCookie("refreshToken");
-    res.status(200).json("Logged out successfully!");
+    res.status(200).json({ message: "Logged out successfully!" });
   }
-  generateAccessToken(user) {
-    return jwt.sign(
-      {
-        id: user.id,
-      },
-      process.env.JSON_WEB_TOKEN_HIDEN,
-      { expiresIn: "300s" }
-    );
-  }
+
   refreshToken(req, res) {
     const refreshToken = req.cookies.refreshToken;
     if (!refreshToken) {
@@ -119,7 +104,7 @@ class authControllers {
       return res.status(403).json("Refresh Token is not valid");
     }
 
-    jwt.verify(refreshToken, process.env.JSON_WEB_TOKEN_HIDEN, (err, user) => {
+    jwt.verify(refreshToken, env.RefreshToken_SECRET_KEY, (err, user) => {
       if (err) {
         return res.status(403).json("Refresh Token verification failed");
       }
@@ -130,13 +115,13 @@ class authControllers {
       // Tạo mã thông báo mới
       const newAccessToken = jwt.sign(
         { id: user.id },
-        process.env.JSON_WEB_TOKEN_HIDEN,
-        { expiresIn: "30s" }
+        process.env.AccessToken_HIDEN,
+        { expiresIn: "1800s" }
       );
       const newRefreshToken = jwt.sign(
         { id: user.id },
-        process.env.JSON_WEB_TOKEN_HIDEN,
-        { expiresIn: "60s" }
+        process.env.RefreshToken_HIDEN,
+        { expiresIn: "3600s" }
       );
 
       // Thêm refreshToken mới vào danh sách

@@ -7,7 +7,7 @@ router.get("/listFilters", ListFilterControllers.all);
 router.get("/listFilters/:slug", ListFilterControllers.getFiltertBySlug);
 // post
 router.post("/addlistFilters", ListFilterControllers.addFilter);
-router.post("/addorder", ListFilterControllers.addOder);
+router.post("/addorder/:userId", ListFilterControllers.addOder);
 
 // item
 router.get("/item/search", itemControllers.searchItem);

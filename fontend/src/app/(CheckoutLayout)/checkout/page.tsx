@@ -14,7 +14,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { ReactNode } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Cart, Item, Address, Ipayment } from '@/types/frontEnd';
+import { Cart, Item, Address, Ipayment, Order, User, IUser } from '@/types/frontEnd';
 
 const cx = classNames.bind(styles);
 
@@ -34,7 +34,8 @@ const CheckoutPage: FunctionComponent<CheckoutPageProps> = () => {
   const [isCheckFillForm, setIsCheckFillForm] = useState<boolean>(false);
   const [feeValue, setFeeValue] = useState<number>(0);
   const cart: Cart = useSelector(cartSelector);
-  const currentUser: any = useSelector(authSelector).currentUser;
+  const currentUser: IUser = useSelector(authSelector);
+  console.log(currentUser);
   const payment: Ipayment[] = [
     {
       id: uuidv4(),
@@ -147,18 +148,23 @@ const CheckoutPage: FunctionComponent<CheckoutPageProps> = () => {
     { id: uuidv4(), left: 'Nhận hàng tại cửa hàng', right: 'Miễn phí' },
   ];
   const handleChangeAddressList = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const addressListSelect: Address = currentUser._doc.addressList.find(
-      (address: Address) => address._id === e.target.value,
+    const addressListSelect: Address | undefined = currentUser?._doc.addressList.find(
+      (address: any) => address?._id === e.target.value,
     );
-    if (e.target.value === 'default') {
-      setPhoneValue('');
-      setNameInput('');
-    } else {
-      setAddressList(addressListSelect);
-      setPhoneValue(addressListSelect?.phone?.slice(1));
-      setNameInput(`${addressListSelect?.lastName} ${addressListSelect?.firstName}`);
+
+    if (addressListSelect) {
+      // Fixed syntax: if (addressListSelect) instead of if(addressListSelect)(
+      if (e.target.value === 'default') {
+        setPhoneValue('');
+        setNameInput('');
+      } else {
+        // setAddressList(addressListSelect);
+        setPhoneValue(addressListSelect?.phone?.slice(1));
+        setNameInput(`${addressListSelect?.lastName} ${addressListSelect?.firstName}`);
+      }
     }
   };
+
   const handleNameInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNameInput(e.target.value);
   };
@@ -188,8 +194,7 @@ const CheckoutPage: FunctionComponent<CheckoutPageProps> = () => {
     setNoteValue(e.target.value);
   };
   const handleOrder = async () => {
-    const order = {
-      _id: currentUser._doc._id,
+    const order: Order = {
       addressReceive: addressOption,
       price: 400000,
       status: 'Đang tiến hành',
@@ -202,7 +207,7 @@ const CheckoutPage: FunctionComponent<CheckoutPageProps> = () => {
       receiver: nameInput,
     };
     try {
-      await addOrder(order);
+      await addOrder(order, currentUser._doc._id);
     } catch (error) {
       console.log(error);
     }
@@ -234,7 +239,7 @@ const CheckoutPage: FunctionComponent<CheckoutPageProps> = () => {
                     <span className={cx('field__title')}>Sổ địa chỉ</span>
                     <select size={1} className={cx('field__input--select')} onChange={handleChangeAddressList}>
                       <option value="default">Địa chỉ khác...</option>
-                      {currentUser._doc.addressList.map((address: Address) => (
+                      {currentUser?._doc.addressList?.map((address: Address) => (
                         <option value={address._id} key={address._id}>
                           {address.firstName}
                         </option>

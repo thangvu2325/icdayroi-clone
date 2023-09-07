@@ -1,5 +1,4 @@
-import { createSelector } from '@reduxjs/toolkit';
-import { Item, Filter, ItemData } from '@/types/frontEnd';
+import { Item, Filter } from '@/types/frontEnd';
 
 export const searchTextSelector = (state: {
   filters: {
@@ -14,21 +13,4 @@ export const filterListSelector = (state: {
     loading: string;
   };
 }) => state.filterList.data;
-export const authSelector = (state: { auth: { login: any } }) => state.auth.login;
-// export const ItemsSelector = (state: {
-//   item: {
-//     data: ItemData;
-//   };
-// }) => state.item.data;
-// export const itemsRemainingSelector = createSelector(
-//   searchTextSelector,
-//   ItemsSelector,
-//   (searchText: string, itemData: ItemData) => {
-//     const lowerCaseSearchText = searchText.toLowerCase();
-//     const itemList: Item[] = itemData.items;
-//     return itemList.filter((item) => {
-//       const lowerCaseItemName = item.name.toLowerCase();
-//       return lowerCaseItemName.includes(lowerCaseSearchText);
-//     });
-//   },
-// );
+export const authSelector = (state: { auth: { login: any } }) => state.auth.login.currentUser;

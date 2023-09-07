@@ -48,11 +48,10 @@ export const registerUser = async (
 export const logOut = async (dispatch, id, router, accessToken, axiosJWT) => {
   dispatch(logOutStart());
   try {
-    const eror = await axiosJWT.post('http://localhost:3001/auth/logout', id, {
+    await axiosJWT.post('http://localhost:3001/auth/logout', id, {
       withCredentials: true,
       headers: { token: `Bearer ${accessToken}` },
     });
-    console.log(eror);
     dispatch(logOutSuccess());
     router.push('/');
   } catch (err) {

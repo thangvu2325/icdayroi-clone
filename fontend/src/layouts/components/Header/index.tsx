@@ -36,7 +36,7 @@ interface HeaderProps {}
 const Header: FunctionComponent<HeaderProps> = (): ReactNode => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [itemSearch, setItemSearch] = useState<Item[] | false>([]);
-  const currentUser: IUser = useSelector(authSelector).currentUser;
+  const currentUser: IUser = useSelector(authSelector);
   const id = currentUser?._doc._id;
   const accessToken = currentUser?.accessToken;
   const dispatch = useDispatch();
@@ -56,7 +56,9 @@ const Header: FunctionComponent<HeaderProps> = (): ReactNode => {
   //     inputRef.current.focus();
   //   }
   // };
-
+  const handleRouteOrder = () => {
+    router.push('/checkout');
+  };
   const handleChangeSearchInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchValue = e.target.value;
     if (!searchValue.startsWith(' ')) return setSearchValue(e.target.value);
@@ -208,7 +210,7 @@ const Header: FunctionComponent<HeaderProps> = (): ReactNode => {
                             <span className={cx('price')}>
                               {cart.listItem
                                 ?.reduce((acc, item) => {
-                                  const subtotal = item.qty * item.price_final;
+                                  const subtotal = Number(item.qty * Number(item.price_final));
                                   return acc + subtotal;
                                 }, 0)
                                 .toLocaleString()}
@@ -220,7 +222,7 @@ const Header: FunctionComponent<HeaderProps> = (): ReactNode => {
                           <Button className={cx('action-btn')} primary>
                             Giỏ hàng
                           </Button>
-                          <Button className={cx('action-btn')} outline>
+                          <Button className={cx('action-btn')} outline onClick={handleRouteOrder}>
                             Đặt hàng
                           </Button>
                         </div>

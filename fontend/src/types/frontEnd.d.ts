@@ -29,7 +29,7 @@ export interface Address {
   default: boolean;
 }
 export interface Order {
-  _id: string;
+  _id?: string;
   addressReceive: string;
   price: number;
   status: string;
@@ -40,6 +40,7 @@ export interface Order {
   items: Item[] | undefined;
   note: string;
   receiver: string;
+  date?: string;
 }
 export interface Filter {
   _id: string;
@@ -69,13 +70,13 @@ export interface User {
   roles: Array<Object>;
   email: string;
   phone: string;
-  orders: Order[];
+  order: Order[];
 }
 export interface IUser {
   _doc: {
     _id: string;
     name: string;
-    addressList: Array<Object>;
+    addressList: Array<Address>;
     roles: Array<Object>;
     email: string;
     phone: string;

@@ -9,34 +9,12 @@ import { fetchFilterData } from '@/redux/slices/filterListSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { IconChevronsRight } from '@tabler/icons-react';
 import { usePathname } from 'next/navigation';
-import { Item, Filter } from '@/types/frontEnd';
-import { filterListSelector } from '@/redux/selectors';
 import { fetchItemData } from '@/redux/slices/itemSlice';
 const cx = classNames.bind(styles);
 
 export default function DefaultLayout({ children }: { children: React.ReactNode }) {
   const dispatch = useDispatch();
   const pathname = usePathname().split('/').slice(1);
-  const filterList: Filter[] = useSelector(filterListSelector);
-  const items: Item[] = [];
-  filterList.forEach((filter) => {
-    if (filter.item && filter.item.length) {
-      items.push(...filter.item);
-    }
-    if (filter.subFilter && filter.subFilter.length) {
-      filter.subFilter.forEach((subFilter) => {
-        if (subFilter.item && subFilter.item.length) {
-          items.push(...subFilter.item);
-        }
-      });
-    }
-  });
-  const ItemSelect = items.find((item) => {
-    return item.slug === pathname[pathname.length - 1];
-  });
-  if (ItemSelect?.name) {
-    pathname[pathname.length - 1] = ItemSelect.name;
-  }
   useEffect(() => {
     dispatch(fetchFilterData());
     dispatch(fetchItemData());
@@ -53,7 +31,6 @@ export default function DefaultLayout({ children }: { children: React.ReactNode 
               <div className={cx('nav-title')}>Trang chủ</div>
             </div>
             {pathname.map((item, index) => {
-              console.log(item);
               return (
                 <span className={cx('nav')} key={index}>
                   <div className={cx('nav-icon')}>

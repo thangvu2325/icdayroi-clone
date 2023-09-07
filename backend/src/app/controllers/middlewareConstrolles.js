@@ -6,7 +6,7 @@ const middlewareController = {
     const token = req.headers.token;
     if (token) {
       const accessToken = token.split(" ")[1];
-      jwt.verify(accessToken, env.JSON_WEB_TOKEN_HIDEN, (err, user) => {
+      jwt.verify(accessToken, env.AccessToken_HIDEN, (err, user) => {
         if (err) {
           res.status(403).json("Token is not Valid");
         }
